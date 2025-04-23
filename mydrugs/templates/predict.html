@@ -1,0 +1,91 @@
+{% load static %}
+{% load form_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drug Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow rounded-4">
+                <div class="card-body">
+                    <h2 class="card-title mb-4 text-center fw-bold">Drug Prediction Form</h2>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.age.label_tag }}
+                            {{ form.age|add_class:"form-select" }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.sex.label_tag }}
+                            {{ form.sex|add_class:"form-select" }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.blood_pressure.label_tag }}
+                            {{ form.blood_pressure|add_class:"form-select" }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.cholesterol.label_tag }}
+                            {{ form.cholesterol|add_class:"form-select" }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.na_to_k.label_tag }}
+                            {{ form.na_to_k|add_class:"form-control" }}
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Predict</button>
+                    </form>
+
+                    {% if prediction %}
+                        <div class="alert alert-info mt-4 text-center fw-semibold">
+                            Predicted Drug: <span class="text-primary">{{ prediction }}</span>
+                        </div>
+                    {% endif %}
+
+                    {% if error %}
+                        <div class="alert alert-danger mt-3 text-center">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4">
+        <div class="modal-header">
+          <h5 class="modal-title" id="resultModalLabel">Prediction Result</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center fs-5">
+          Predicted Drug: <strong>{{ prediction }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if prediction %}
+<script>
+  // Automatically show modal if there's a prediction
+  var modal = new bootstrap.Modal(document.getElementById('resultModal'));
+  modal.show();
+</script>
+{% endif %}
+
+{% if prediction %}
+<div class="alert alert-info mt-4 text-center fw-semibold">
+  Predicted Drug: <span class="text-primary">{{ prediction }}</span>
+</div>
+{% endif %}
+
+</body>
+</html>
