@@ -1,6 +1,18 @@
 from django.urls import path
-from .views import predict_drug
+from .views import (
+    home_view,
+    predict_drug,
+    register_view,
+    login_view,
+    logout_view,
+    dashboard_view
+)
 
 urlpatterns = [
-    path("", predict_drug, name="predict_drug"),
+    path('', home_view, name='home'),
+    path('predict/', predict_drug, name='predict'),
+    path('register/', register_view, name='register'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('dashboard/', dashboard_view, name='dashboard'),
 ]
